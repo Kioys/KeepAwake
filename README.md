@@ -138,7 +138,7 @@ release.bat v1.0.0
 ## 📋 Instalación manual
 
 ```bash
-git clone https://github.com/[TU-USUARIO]/KeepAwake.git
+git clone https://github.com/Kioys/KeepAwake.git
 cd KeepAwake
 pip install -r requirements.txt
 python keep_awake.py

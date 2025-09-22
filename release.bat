@@ -66,6 +66,6 @@ echo.
 echo Tag %VERSION% creado y subido a GitHub
 echo GitHub Actions construira automaticamente los archivos .exe
 echo El release estara disponible en unos minutos en:
-echo https://github.com/[TU-USUARIO]/KeepAwake/releases
+echo https://github.com/Kioys/KeepAwake/releases
 echo.
 pause
