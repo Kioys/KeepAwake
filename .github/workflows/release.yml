@@ -6,6 +6,10 @@ on:
       - 'v*'  # Se ejecuta cuando se crea un tag que empiece con 'v'
   workflow_dispatch:  # Permite ejecutar manualmente
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build:
     runs-on: windows-latest
