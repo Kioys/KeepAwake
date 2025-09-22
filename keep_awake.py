@@ -26,7 +26,7 @@ class KeepAwake:
         self.hotkey_registered = False
         
         # Configurar pyautogui para ser más seguro
-        pyautogui.FAILSAFE = True  # Mover el mouse a la esquina superior izquierda para parar
+        pyautogui.FAILSAFE = False  # Mover el mouse a la esquina superior izquierda para parar
         pyautogui.PAUSE = 0.1
         
         # Establecer título de la ventana

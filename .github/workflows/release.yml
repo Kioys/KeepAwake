@@ -1,0 +1,92 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Se ejecuta cuando se crea un tag que empiece con 'v'
+  workflow_dispatch:  # Permite ejecutar manualmente
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+    
+    - name: Build executables
+      run: |
+        # Construir versión completa
+        pyinstaller --onefile --console --name "KeepAwake" keep_awake.py
+        
+        # Construir versión simple
+        pyinstaller --onefile --console --name "KeepAwake-Simple" simple_keep_awake.py
+    
+    - name: Create release folder
+      run: |
+        mkdir release
+        copy dist\KeepAwake.exe release\
+        copy dist\KeepAwake-Simple.exe release\
+        copy README.md release\
+        copy LICENSE release\
+        copy requirements.txt release\
+    
+    - name: Create ZIP archive
+      run: |
+        powershell Compress-Archive -Path release\* -DestinationPath KeepAwake-${{ github.ref_name }}-Windows.zip
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: KeepAwake-Windows-Executables
+        path: |
+          dist/*.exe
+          KeepAwake-*.zip
+    
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/KeepAwake.exe
+          dist/KeepAwake-Simple.exe
+          KeepAwake-${{ github.ref_name }}-Windows.zip
+        body: |
+          ## KeepAwake ${{ github.ref_name }}
+          
+          ### 📥 Descargas
+          
+          - **KeepAwake.exe** - Versión completa con múltiples tipos de actividad
+          - **KeepAwake-Simple.exe** - Versión simple que solo mueve el mouse
+          - **KeepAwake-${{ github.ref_name }}-Windows.zip** - Archivo completo con ejecutables y documentación
+          
+          ### 🚀 Cómo usar
+          
+          1. Descarga el archivo .exe que prefieras
+          2. Ejecuta el archivo directamente
+          3. El programa mantendrá tu PC activa
+          4. Usa **Ctrl+Alt+F10** para cerrarlo desde cualquier lugar
+          
+          ### 📋 Características
+          
+          - ✅ Movimientos sutiles del mouse
+          - ✅ Presión de teclas no intrusivas (Scroll Lock)
+          - ✅ Hotkey global para cerrar (Ctrl+Alt+F10)
+          - ✅ Configuración de intervalos personalizables
+          - ✅ Sin instalación requerida
+          
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

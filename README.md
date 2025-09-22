@@ -2,16 +2,47 @@
 
 Este proyecto Python evita que tu computadora entre en modo suspensión simulando actividad muy sutil.
 
+## 📥 Descarga Rápida (Archivos .exe)
+
+**¿No tienes Python instalado?** ¡No hay problema!
+
+### [📦 Descargar Última Versión](../../releases/latest)
+
+- **KeepAwake.exe** - Versión completa con múltiples tipos de actividad
+- **KeepAwake-Simple.exe** - Versión simple que solo mueve el mouse
+- **KeepAwake-vX.X.X-Windows.zip** - Paquete completo con documentación
+
+✅ **Sin instalación requerida** - Solo descarga y ejecuta  
+✅ **Compatible con Windows 10/11**  
+✅ **Completamente portable**
+
 ## 📁 Archivos incluidos
 
 - **`keep_awake.py`** - Script principal con múltiples tipos de actividad simulada
 - **`simple_keep_awake.py`** - Versión simple que solo mueve el mouse
 - **`run_keep_awake.bat`** - Script por lotes para ejecutar fácilmente en Windows
 - **`run_keep_awake_silent.vbs`** - Script VBScript completamente silencioso
+- **`build_exe.py`** - Script para construir ejecutables localmente
+- **`build_local.bat`** - Script de batch para construcción local
+- **`release.bat`** - Script para crear releases automáticamente
 
 ## 🚀 Cómo usar
 
-### Opción 1: Script principal (recomendado)
+### ⚡ Opción 1: Archivos .exe (Recomendado para usuarios finales)
+
+1. Ve a [Releases](../../releases/latest)
+2. Descarga `KeepAwake.exe` o `KeepAwake-Simple.exe`
+3. Ejecuta el archivo directamente
+4. ¡Listo! Tu PC se mantendrá activa
+
+### 🐍 Opción 2: Script Python (Para desarrolladores)
+
+Primero instala las dependencias:
+```bash
+pip install -r requirements.txt
+```
+
+#### Script principal (recomendado)
 ```bash
 python keep_awake.py
 ```
@@ -31,7 +62,7 @@ python keep_awake.py 0.1   # Cada 6 segundos
 python keep_awake.py 0.083 # Cada 5 segundos (mínimo)
 ```
 
-### Opción 2: Script simple
+#### Script simple
 ```bash
 python simple_keep_awake.py
 ```
@@ -39,10 +70,12 @@ python simple_keep_awake.py
 - **Mismas opciones de tiempo** que el script principal
 - Valor por defecto: 1 minuto
 
-### Opción 3: Script por lotes (Windows)
+### 🪟 Opción 3: Scripts de Windows
+
+#### Script por lotes (Windows)
 Haz doble clic en `run_keep_awake.bat`
 
-### Opción 4: Script VBScript silencioso
+#### Script VBScript silencioso
 Ejecuta `run_keep_awake_silent.vbs` haciendo doble clic
 
 ## ⏱️ Sistema de tiempos intuitivo
@@ -72,3 +105,41 @@ El script principal incluye:
 1. **Movimientos sutiles del mouse** (1-3 píxeles)
 2. **Presión de Scroll Lock** (no afecta ninguna aplicación)
 3. **Movimientos de vaivén** del cursor
+
+## 🔧 Construcción de ejecutables
+
+### Para desarrolladores que quieren crear sus propios .exe:
+
+#### Construcción local:
+```bash
+# Usando Python
+python build_exe.py
+
+# Usando batch (Windows)
+build_local.bat
+```
+
+#### Crear release automático:
+```bash
+# Hacer commit de todos los cambios primero
+git add .
+git commit -m "Preparar para release"
+
+# Crear y publicar release
+release.bat v1.0.0
+```
+
+## 🛠️ Dependencias
+
+- `pyautogui` - Control del mouse y teclado
+- `keyboard` - Hotkeys globales
+- `pillow` - Requerido por pyautogui
+
+## 📋 Instalación manual
+
+```bash
+git clone https://github.com/[TU-USUARIO]/KeepAwake.git
+cd KeepAwake
+pip install -r requirements.txt
+python keep_awake.py
+```
